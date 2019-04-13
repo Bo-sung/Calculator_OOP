@@ -8,6 +8,16 @@ namespace Calculator_OOP
 {
     class Calcul
     {
+        Boolean min;
+        Boolean fin;
+        private String m_result;    //결과
+        private Boolean prev_ch;
+        Boolean Prev_ch { get => prev_ch; set => prev_ch = value; }
+        List<String> m_callist = new List<String>();
+        List<String> m_printList = new List<String>();
+
+
+
         //      Inputs :
         //      AddProcess(Int32) 	//숫자 입력
         //      AddProcess(char)	//부호 입력
@@ -15,76 +25,32 @@ namespace Calculator_OOP
         //      
         //      Outputs :
         //      getFin()	//계산 완료여부 Boolean로 반환
-        //      GetListPrInt32()	//입력된 List 데이터 String으로 반환.
+        //      GetListString()	//입력된 List 데이터 String으로 반환.
         //      ReturnBinary()	//결과값 2진수로 변환후 String으로 반환
-
-        Boolean min;
-        Boolean fin;
-        public Boolean getfin()
-        {
-            return fin;
-        }
-        private String m_result;    //결과
-        private Boolean prev_ch;
-        List<String> m_callist = new List<String>();
-        List<String> m_printList = new List<String>();
-        void reset_printlist()
-        {
-            m_printList = null;
-            m_printList = new List<String>();
-        }
-        void reset_callist()
-        {
-            m_callist = null;
-            m_callist = new List<String>();
-        }
-        public List<String> GetList()
-        {
-            List<String> _list = m_callist;
-            return _list;
-        }
-        public String GetListString()
-        {
-            String str = null;
-            for(Int32 i = 0; i < m_printList.Count; ++i)
-            {
-                str += m_printList[i] + " ";
-            }
-            return str;
-        }
-        Boolean Prev_ch { get => prev_ch; set => prev_ch = value; }
-        public String returnBinary()
-        {
-            String output16 = null;
-            if (m_printList.Count > 0 && m_printList.Count % 2 == 1)
-            {
-                 output16 = System.Convert.ToString(Int32.Parse(m_printList[m_printList.Count - 1]),2);
-            }
-            return output16;
-        }
         public Calcul()
         {
             min = false;
             fin = false;
         }
+
         public void DelProcess(Boolean c)
         {
             if (c)//다 지움
             {
-                reset_callist();
-                reset_printlist();
+                Reset_List(m_callist);
+                Reset_List(m_printList);
                 min = false;
                 prev_ch = false;
             }
-            else if(!fin) //지금꺼만 지움
-            {                
+            else if (!fin) //지금꺼만 지움
+            {
                 m_printList.RemoveAt(m_printList.Count - 1);
             }
             m_result = null;
         }
         public Int32 AddProcess(Int32 _d)
         {
-            if(fin)
+            if (fin)
             {
                 DelProcess(true);
                 m_result += _d.ToString();
@@ -96,16 +62,16 @@ namespace Calculator_OOP
             Prev_ch = false;
             return 0;
         }
-        public Int32 AddProcess(char _d)
+        public Int32 AddProcess(Char _d)
         {
-            
+
             if (_d == '.')
             {
                 m_result += _d;
             }
             else
             {
-                if(!fin &&m_result != null)
+                if (!fin && m_result != null)
                 {
                     m_printList.Add(m_result);
                 }
@@ -123,12 +89,12 @@ namespace Calculator_OOP
                 if (Prev_ch)
                 {
                     m_callist.RemoveAt(m_callist.Count - 1);
-                    m_printList.RemoveAt(m_printList.Count -1);
+                    m_printList.RemoveAt(m_printList.Count - 1);
                     min = false;
                 }
                 else
                 {
-                    m_callist.Add(m_result);                    
+                    m_callist.Add(m_result);
                     m_result = null;
                 }
                 if (_d != '=')
@@ -157,9 +123,48 @@ namespace Calculator_OOP
             }
             return 0;
         }
-        public String Result()
+
+        public Boolean getfin()
         {
-            return returnBinary();
+            return fin;
+        }
+        public String PrintString()
+        {
+            return GetListString(Get_PrintList());
+        }
+        public String ReturnBinary()
+        {
+            String output16 = null;
+            if (m_printList.Count > 0 && m_printList.Count % 2 == 1)
+            {
+                output16 = System.Convert.ToString(Int32.Parse(m_printList[m_printList.Count - 1]), 2);
+            }
+            return output16;
+        }
+
+        void Reset_List(List<String> list)
+        {
+            list = null;
+            list = new List<string>();
+        }
+        String GetListString(List<String> list)
+        {
+            String str = null;
+            for (Int32 i = 0; i < list.Count; ++i)
+            {
+                str += list[i] + " ";
+            }
+            return str;
+        }
+        List<String> Get_CalList()
+        {
+            List<String> _list = m_callist;
+            return _list;
+        }
+        List<String> Get_PrintList()
+        {
+            List<String> _list = m_printList;
+            return _list;
         }
         List<String> calculate(List<String> _list)
         {

@@ -158,7 +158,7 @@ namespace Calculator_OOP
         }
         public void printing()
         {
-            this.mainPrint.Text = this.cal.GetListString();
+            this.mainPrint.Text = this.cal.PrintString();
         }
         public void printing(int _d)
         {
@@ -188,7 +188,6 @@ namespace Calculator_OOP
                 printing();
             }
             printing(int.Parse(this.Name));
-            List<string> dummy = this.cal.GetList();
         }
     }
     class Cal_Btn : Buttons
@@ -250,7 +249,7 @@ namespace Calculator_OOP
         {
             if (cal.getfin())
             {
-                this.secPrint.Text = cal.Result();
+                this.secPrint.Text = cal.ReturnBinary();
             }
         }
     }
